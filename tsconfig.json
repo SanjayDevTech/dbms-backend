@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"incremental": true,
+		"target": "es6",
+		"module": "ESNEXT",
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true,
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"baseUrl": ".",
+		"outDir": "dist",
+		"paths": {
+			"*": ["node_modules/*"]
+		},
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["src/**/*"]
+}
