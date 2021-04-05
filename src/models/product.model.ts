@@ -1,5 +1,5 @@
-import { isInValid } from "../utils";
-import getPool from "../database";
+import { isInValid } from "../utils.js";
+import getPool from "../database.js";
 import { OkPacket, RowDataPacket } from "mysql2";
 
 const pool = getPool();
