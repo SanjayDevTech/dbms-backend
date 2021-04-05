@@ -44,10 +44,10 @@ const dbInit = async (pool: Pool) => {
 			CREATE TABLE IF NOT EXISTS product (
 				id INT PRIMARY KEY AUTO_INCREMENT,
 				seller_id INT,
-				name VARCHAR(50),
-				des VARCHAR(300),
-				price VARCHAR(30),
-				image VARCHAR(50)
+				name VARCHAR(255),
+				des VARCHAR(600),
+				price VARCHAR(500),
+				image VARCHAR(500)
 			)
 	`);
 		await pool.query(`

@@ -92,6 +92,32 @@ export class UserModel {
 		}
 	}
 
+	static async findByCredentials(email: string, hash: string) {
+		if (isInValid([email, hash])) {
+			console.log("UserModel#findByEmail: invalid params");
+			return null;
+		}
+		const sqlQuery = "SELECT * FROM `user` WHERE `email` = ? AND hash = ?";
+		try {
+			const [results, fields] = await pool.query<RowDataPacket[]>(sqlQuery, [
+				email,
+				hash,
+			]);
+			if (results.length === 0) {
+				console.log("UserModel#findByEmail: no row matched with passed id");
+				return null;
+			}
+			const row = results[0];
+			const user: User = User.convert(row);
+			console.log("UserModel#findByEmail: success");
+			return user;
+		} catch (e) {
+			console.log("UserModel#findByEmail: error occurred");
+			console.log(e);
+			return null;
+		}
+	}
+
 	static async findOne(id: number) {
 		if (isInValid([id])) {
 			console.log("UserModel#findOne: invalid params");

@@ -19,7 +19,7 @@
 
 ![GET](https://img.shields.io/badge/HTTP-GET-brightgreen)
 
-`/products`
+`/products?query=query`
 
 _Returns all products_
 
@@ -60,6 +60,7 @@ _Inserts a product_
 
 ### Arguments:
 
+- email - [STRING]
 - hash - [STRING] seller hash value must be equal to the owner seller hash
 - product - [OBJECT] product object
 
@@ -93,6 +94,7 @@ _Updates a specific product_
 
 ### Arguments:
 
+- email - [STRING]
 - hash - [STRING] seller hash value must be equal to the owner seller hash
 - product - [OBJECT] product object
 
@@ -128,6 +130,7 @@ _Deletes a specific product_
 
 ### Arguments:
 
+- email - [STRING]
 - hash - [STRING] seller hash value must be equal to the owner seller hash
 
 ### Returns:
@@ -235,6 +238,7 @@ _Creates a new purchase entry_
 
 ### Arguments:
 
+- email - [STRING]
 - hash - [STRING] Hash of the requesting user
 - purchase - [OBJECT] purchase object
 
@@ -268,6 +272,7 @@ _Updates an existing purchase entry_
 
 ### Arguments:
 
+- email - [STRING]
 - hash - [STRING] Hash of the requesting user
 - purchase - [OBJECT] purchase object
 
@@ -303,7 +308,8 @@ _Deletes an existing purchase entry_
 
 ### Arguments:
 
-- none
+- email - [STRING]
+- hash - [STRING] Hash of the requesting user
 
 ### Returns:
 

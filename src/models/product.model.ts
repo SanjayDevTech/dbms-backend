@@ -93,11 +93,7 @@ export class ProductModel {
 		}
 	}
 
-	static async findBySearch(search: string): Promise<Product[] | null> {
-		if (isInValid([search])) {
-			console.log("ProductModel#findBySearch: invalid params");
-			return null;
-		}
+	static async findBySearch(search: string = ""): Promise<Product[] | null> {
 		const sqlQuery = "SELECT * FROM `product` WHERE `name` LIKE ?";
 		try {
 			const [results, fields] = await pool.query<RowDataPacket[]>(sqlQuery, [

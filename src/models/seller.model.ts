@@ -92,6 +92,32 @@ export class SellerModel {
 		}
 	}
 
+	static async findByCredentials(email: string, hash: string) {
+		if (isInValid([email, hash])) {
+			console.log("SellerModel#findByEmail: invalid params");
+			return null;
+		}
+		const sqlQuery = "SELECT * FROM `seller` WHERE `email` = ? AND hash = ?";
+		try {
+			const [results, fields] = await pool.query<RowDataPacket[]>(sqlQuery, [
+				email,
+				hash,
+			]);
+			if (results.length === 0) {
+				console.log("SellerModel#findByEmail: no row matched with passed id");
+				return null;
+			}
+			const row = results[0];
+			const seller: Seller = Seller.convert(row);
+			console.log("SellerModel#findByEmail: success");
+			return seller;
+		} catch (e) {
+			console.log("SellerModel#findByEmail: error occurred");
+			console.log(e);
+			return null;
+		}
+	}
+
 	static async findOne(id: number) {
 		if (isInValid([id])) {
 			console.log("SellerModel#findOne: invalid params");
