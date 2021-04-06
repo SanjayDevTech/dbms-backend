@@ -93,6 +93,32 @@ export class ProductModel {
 		}
 	}
 
+	static async findByCredential(
+		email: string,
+		hash: string
+	): Promise<Product[] | null> {
+		if (isInValid([email, hash])) {
+			console.log("ProductModel#findByCredential: invalid params");
+			return null;
+		}
+		const sqlQuery =
+			"SELECT `id` FROM `seller` WHERE `email` = ? AND `hash` = ?";
+		try {
+			const [results, fields] = await pool.query<RowDataPacket[]>(sqlQuery, [
+				email,
+				hash,
+			]);
+			if (results.length === 0) return null;
+			const sellerId: number = results[0]["id"];
+			console.log("ProductModel#findByCredential: success");
+			return await this.findMany(sellerId);
+		} catch (e) {
+			console.log("ProductModel#findByCredential: error occurred");
+			console.log(e);
+			return null;
+		}
+	}
+
 	static async findBySearch(search: string = ""): Promise<Product[] | null> {
 		const sqlQuery = "SELECT * FROM `product` WHERE `name` LIKE ?";
 		try {

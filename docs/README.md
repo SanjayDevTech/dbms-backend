@@ -52,6 +52,47 @@ Status code: Other than ![200](https://img.shields.io/badge/CODE-200-yellowgreen
 
 ---
 
+![GET](https://img.shields.io/badge/HTTP-GET-brightgreen)
+
+`/products/:id`
+
+_Returns product with specified id_
+
+### Arguments:
+
+- none
+
+### Returns:
+
+Status code: ![200](https://img.shields.io/badge/CODE-200-yellowgreen)
+
+```json
+{
+	"status": true,
+	"error": null,
+	"product": {
+		"id": 01,
+		"name": "Product Name",
+		"des": "Product description",
+		"price": "200",
+		"cover": "https://imgbb.com/image.png",
+		"sellerId": 02
+	}
+}
+```
+
+Status code: Other than ![200](https://img.shields.io/badge/CODE-200-yellowgreen)
+
+```json
+{
+	"status": false,
+	"error": "Error message",
+	"product": null
+}
+```
+
+---
+
 ![POST](https://img.shields.io/badge/HTTP-POST-blue)
 
 `/products`
