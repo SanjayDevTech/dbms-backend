@@ -4,6 +4,7 @@ import { Product, ProductModel } from "../../models/product.model.js";
 import { SellerModel } from "../../models/seller.model.js";
 import __dirname from "../../../expose.js";
 import fs from "fs/promises";
+import { PurchaseModel } from "../../models/purchase.model.js";
 
 const router = express.Router();
 
@@ -124,6 +125,7 @@ router.delete("/:id", async (req, res) => {
 		if (seller.hash !== hash) {
 			return res.json({ status: false, error: "Invalid seller id" });
 		}
+		await PurchaseModel.deleteByProduct(product.id);
 		const affectedRows = await ProductModel.delete(id);
 		try {
 			if (!product.image.startsWith("http")) {

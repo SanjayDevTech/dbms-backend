@@ -45,6 +45,42 @@ export class PurchaseModel {
 		}
 	}
 
+	static async deleteByUser(userId: number): Promise<number> {
+		if (isInValid([userId])) {
+			console.log("PurchaseModel#deleteByUser: invalid params");
+			return 0;
+		}
+		const sqlQuery = "DELETE FROM `purchase` WHERE `user_id` = ?";
+		try {
+			const [results, fields] = await pool.query<OkPacket>(sqlQuery, [userId]);
+			console.log("PurchaseModel#deleteByUser: Success");
+			return results.affectedRows;
+		} catch (e) {
+			console.log("PurchaseModel#deleteByUser: Error below occurred");
+			console.log(e);
+			return 0;
+		}
+	}
+
+	static async deleteByProduct(productId: number): Promise<number> {
+		if (isInValid([productId])) {
+			console.log("PurchaseModel#deleteByProduct: invalid params");
+			return 0;
+		}
+		const sqlQuery = "DELETE FROM `purchase` WHERE `product_id` = ?";
+		try {
+			const [results, fields] = await pool.query<OkPacket>(sqlQuery, [
+				productId,
+			]);
+			console.log("PurchaseModel#deleteByProduct: Success");
+			return results.affectedRows;
+		} catch (e) {
+			console.log("PurchaseModel#deleteByProduct: Error below occurred");
+			console.log(e);
+			return 0;
+		}
+	}
+
 	static async update(purchase: Purchase): Promise<number> {
 		const { id, productId, userId, status } = purchase;
 		if (isInValid([id, productId, userId, status])) {
@@ -74,12 +110,13 @@ export class PurchaseModel {
 			console.log("PurchaseModel#findMany: invalid params");
 			return null;
 		}
-		const sqlQuery = "SELECT * FROM `purchase` WHERE `user_id` = ?";
+		const sqlQuery =
+			"SELECT purchase.id, purchase.status, product.name FROM `purchase` JOIN `product` ON `product_id` = product.id WHERE `user_id` = ?";
 		try {
 			const [results, fields] = await pool.query<RowDataPacket[]>(sqlQuery, [
 				userId,
 			]);
-			const purchases: Purchase[] = Purchase.convertMany(results);
+			const purchases: Order[] = Order.convertMany(results);
 			console.log("PurchaseModel#findMany: success");
 			return purchases;
 		} catch (e) {
@@ -139,6 +176,27 @@ export class Purchase {
 		this.id = id;
 		this.userId = userId;
 		this.productId = productId;
+		this.status = status;
+	}
+}
+
+export class Order {
+	id: number;
+	name: string;
+	status: number;
+
+	static convert(row: RowDataPacket): Order {
+		const purchase = new Order(row["id"], row["name"], row["status"]);
+		return purchase;
+	}
+
+	static convertMany(rows: RowDataPacket[]): Order[] {
+		return rows.map((r) => this.convert(r));
+	}
+
+	constructor(id: number, name: string, status: number) {
+		this.id = id;
+		this.name = name;
 		this.status = status;
 	}
 }
